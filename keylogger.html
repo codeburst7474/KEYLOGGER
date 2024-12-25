@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Logger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: #333;
+        }
+        p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        #start-btn {
+            background-color: #4caf50;
+            color: white;
+        }
+        #stop-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        #clear-log-btn {
+            background-color: #2196f3;
+            color: white;
+        }
+        #log, #state {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #333;
+            font-size: 1rem;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        #log {
+            background-color: #fafafa;
+            height: 80px;
+            overflow-y: auto;
+        }
+        #state {
+            background-color: #ffd54f;
+            color: #333;
+        }
+        @media (max-width: 500px) {
+            button {
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Key Logger</h1>
+        <p>A simple key logging mini-project</p>
+        <div class="btn-container">
+            <button id="start-btn">Start Logging</button>
+            <button id="stop-btn">Stop Logging</button>
+            <button id="clear-log-btn">Clear Log</button>
+        </div>
+        <div id="state">Status: Not Logging</div>
+        <div id="log">Press keys to see the log...</div>
+    </div>
+
+    <script>
+        const logdiv = document.getElementById('log');
+        const stateDiv = document.getElementById('state');
+        const startbtn = document.getElementById('start-btn');
+        const stopbtn = document.getElementById('stop-btn');
+        const clearLogBtn = document.getElementById('clear-log-btn');
+
+        function handleDown(e) {
+            const time = new Date().toLocaleTimeString();
+            logdiv.textContent += `\n${time} - Key "${e.key}" pressed down`;
+            stateDiv.textContent = "Status: Key is down";
+        }
+
+        function handleUp(e) {
+            const time = new Date().toLocaleTimeString();
+            logdiv.textContent += `\n${time} - Key "${e.key}" released`;
+            stateDiv.textContent = "Status: Key is up";
+        }
+
+        startbtn.addEventListener("click", () => {
+            document.addEventListener("keydown", handleDown);
+            document.addEventListener("keyup", handleUp);
+            stateDiv.textContent = "Status: Logging Active";
+            stateDiv.style.backgroundColor = "#4caf50";
+            stateDiv.style.color = "#fff";
+        });
+
+        stopbtn.addEventListener("click", () => {
+            document.removeEventListener("keydown", handleDown);
+            document.removeEventListener("keyup", handleUp);
+            stateDiv.textContent = "Status: Logging Stopped";
+            stateDiv.style.backgroundColor = "#f44336";
+            stateDiv.style.color = "#fff";
+        });
+
+        clearLogBtn.addEventListener("click", () => {
+            logdiv.textContent = "Press keys to see the log...";
+        });
+    </script>
+</body>
+</html>
